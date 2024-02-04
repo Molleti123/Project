@@ -1,0 +1,62 @@
+//pins for sensor 
+#define echopin 7 
+#define trigpin 6 
+//pins for motor 
+#define Fwdrot_LeftMotor 2 
+#define Bckbot_LeftMotor 3 
+#define Fwdrot_RgtMotor 4 
+#define Bckbot_RgtMotor 5 
+#include<LiquidCrystal.h> 
+LiquidCrystal lcd(13,12,8,9,10,11); 
+long duration; 
+int distance; 
+void setup() { 
+ pinMode(echoPin, OUTPUT); 
+ pinMode(trigPin, OUTPUT); 
+ pinMode(Fwdrot_LeftMotor, OUTPUT); 
+ pinMode(Bckbot_LeftMotor, OUTPUT); 
+ pinMode(Fwdrot_RgtMotor, OUTPUT);
+pinMode(Bckbot_RgtMotor, OUTPUT); 
+} 
+void loop() { 
+ digitalWrite(trigPin, LOW); 
+ delayMicroseconds(2); 
+ digitalWrite(trigPin, HIGH); 
+ delayMicroseconds(10); 
+ digitalWrite(trigPin, LOW); 
+ duration = pulseIn(echoPin,HIGH); 
+ distance = duration * 0.034/2; 
+ lcd.setCurser(0,0); 
+ lcd.print("Distance"); 
+ lcd.setCurser(9,0); 
+ lcd.print(distance); 
+ if(distance >= 500) { 
+ lcd.setCurser(0,1); 
+ lcd.print("Moving Back");
+digitalWrite(Bckbot_LeftMotor, HIGH); 
+ digitalWrite(Bckbot_RgttMotor, HIGH); 
+ digitalWrite(Fwdbot_LeftMotor, LOW); 
+ digitalWrite(Fwdbot_RgtMotor, LOW); 
+ 
+ delay(1000); 
+ lcd.clear(); 
+ lcd.setCurser(0,1); 
+ lcd.print("Moving Left"); 
+ digitalWrite(Bckbot_LeftMotor, HIGH); 
+ digitalWrite(Bckbot_RgtMotor, LOW); 
+ 
+ digitalWrite(Fwdbot_LeftMotor, HIGH); 
+ digitalWrite(Fwdbot_RgtMotor, LOW); 
+ delay(1000); 
+ } else { 
+ lcd.clear(); 
+ lcd.setCurser(0,1);
+lcd.print("Moving Forward"); 
+ digitalWrite(Bckbot_LeftMotor, LOW); 
+ digitalWrite(Bckbot_RgtMotor, LOW); 
+ 
+ digitalWrite(Fwdbot_LeftMotor, HIGH); 
+ digitalWrite(Fwdbot_RgtMotor, HIGH); 
+ delay(1000); 
+ } 
+}
